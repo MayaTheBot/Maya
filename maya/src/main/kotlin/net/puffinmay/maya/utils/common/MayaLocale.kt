@@ -1,0 +1,61 @@
+package net.puffinmay.maya.utils.common
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import java.io.InputStream
+
+class MayaLocale(var locale: String) {
+    private val mapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
+
+    companion object {
+        const val PATH = "locales"
+    }
+
+    val language: String
+        get() = locale
+
+    operator fun get(key: String, vararg placeholder: String): String {
+        val normalizedLocale = when (locale) {
+            "pt-br" -> "br"
+            "en-us" -> "us"
+            else -> "br"
+        }
+
+        val resourcePaths = listOf(
+            "$PATH/$normalizedLocale/general.yml",
+            "$PATH/$normalizedLocale/commands.yml",
+            "$PATH/$normalizedLocale/components.yml",
+            "$PATH/$normalizedLocale/modules.yml",
+            "$PATH/$normalizedLocale/utils.yml"
+        )
+
+        for (resourcePath in resourcePaths) {
+            val inputStream: InputStream = this::class.java.classLoader.getResourceAsStream(resourcePath) ?: continue
+            val tree = mapper.readTree(inputStream)
+
+            val keyList = key.split(".")
+            var current = tree
+
+            for (k in keyList) {
+                current = current.get(k)
+
+                if (current == null) {
+                    break
+                }
+            }
+
+            if (current != null) {
+                var result = current.asText()
+
+                placeholder.forEachIndexed { index, s ->
+                    result = result.replace("{$index}", s)
+                }
+
+                return result
+            }
+        }
+
+        return "!!{${key}}!!"
+    }
+}

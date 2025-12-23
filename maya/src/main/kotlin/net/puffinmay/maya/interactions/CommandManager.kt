@@ -1,0 +1,86 @@
+package net.puffinmay.maya.interactions
+
+import dev.minn.jda.ktx.coroutines.await
+import net.puffinmay.maya.MayaInstance
+import net.puffinmay.maya.interactions.commands.CommandDeclarationWrapper
+import net.puffinmay.maya.interactions.commands.CommandUnleashed
+import net.puffinmay.maya.interactions.vanilla.common.declarations.MayaCommand
+import net.puffinmay.maya.interactions.vanilla.connections.declarations.ConnectionsCommand
+import mu.KotlinLogging
+import net.dv8tion.jda.api.interactions.commands.Command
+
+class CommandManager(private val instance: MayaInstance) {
+    val commands = mutableListOf<CommandDeclarationWrapper>()
+    private val logger = KotlinLogging.logger { }
+
+    operator fun get(name: String): CommandDeclarationWrapper? {
+        return commands.find { it.create().name == name }
+    }
+
+    fun getCommandAsLegacy(commandName: String): CommandUnleashed? {
+        commands.forEach { wrapper ->
+            val cmd = wrapper.create()
+
+            cmd.subCommands.forEach { subCmd ->
+                if (subCmd.name.equals(commandName, ignoreCase = true) || subCmd.aliases.any {
+                        it.equals(commandName, ignoreCase = true)
+                    }) {
+                    return CommandUnleashed(subCmd.executor ?: cmd.executor, subCmd)
+                }
+            }
+
+            if (cmd.name.equals(commandName, ignoreCase = true) || cmd.aliases.any {
+                    it.equals(commandName, ignoreCase = true)
+                }) {
+                if (cmd.executor != null) {
+                    return CommandUnleashed(cmd.executor, cmd)
+                }
+            }
+        }
+        return null
+    }
+
+    suspend fun wipeAllDiscordCommands() {
+        instance.shardManager.shards.forEach { shard ->
+            shard.updateCommands().await()
+            logger.warn { "🔥 Global commands wiped on shard ${shard.shardInfo.shardId}" }
+        }
+
+        instance.shardManager.shards.forEach { shard ->
+            shard.guilds.forEach { guild ->
+                guild.updateCommands().await()
+                logger.warn { "🔥 Guild commands wiped on ${guild.name} (${guild.id})" }
+            }
+        }
+    }
+
+    private fun register(command: CommandDeclarationWrapper) {
+        commands.add(command)
+    }
+
+    suspend fun handle(): MutableList<Command> {
+        val allCommands = mutableListOf<Command>()
+
+        instance.shardManager.shards.forEach { shard ->
+            val action = shard.updateCommands()
+
+            commands.forEach { command ->
+                val builtCommand = command.create().build()
+
+                action.addCommands(builtCommand)
+            }
+
+            val registeredCommands = action.await()
+            allCommands.addAll(registeredCommands)
+            logger.info { "${commands.size} commands registered on shard #${shard.shardInfo.shardId}" }
+        }
+
+        return allCommands
+    }
+
+
+    init {
+        register(MayaCommand())
+        register(ConnectionsCommand())
+    }
+}
