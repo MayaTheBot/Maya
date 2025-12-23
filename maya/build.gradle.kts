@@ -62,7 +62,7 @@ tasks.test {
 }
 
 application {
-    mainClass.set("net.puffinmay.MayaLauncher")
+    mainClass.set("net.puffinmay.maya.MayaLauncher")
 }
 
 kotlin {
