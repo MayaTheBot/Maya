@@ -14,6 +14,7 @@ import net.puffinmay.maya.utils.common.MayaEmotes
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.channel.Channel
 import net.dv8tion.jda.api.interactions.DiscordLocale
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class ConnectionJoinExecutor : UnleashedCommandExecutor() {
     override suspend fun execute(context: CommandContext) {
@@ -59,7 +60,9 @@ class ConnectionJoinExecutor : UnleashedCommandExecutor() {
             return
         }
 
-        val totalConnectionsInGuild = guildData.MayaConnections.toList().size
+        val totalConnectionsInGuild = newSuspendedTransaction {
+            guildData.MayaConnections.toList().size
+        }
         val limitConnectionsInGuild = 5
 
         if (totalConnectionsInGuild > limitConnectionsInGuild) {

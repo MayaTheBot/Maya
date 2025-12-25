@@ -18,6 +18,7 @@ import net.puffinmay.maya.interactions.CommandManager
 import net.puffinmay.maya.interactions.components.ComponentManager
 import net.puffinmay.maya.listeners.GuildsListener
 import net.puffinmay.maya.listeners.InteractionsListener
+import net.puffinmay.maya.listeners.MessagesListener
 import net.puffinmay.maya.utils.TasksUtils
 import net.puffinmay.maya.utils.serializable.MayaConfig
 import net.puffinmay.maya.utils.threads.ThreadPoolManager
@@ -95,7 +96,8 @@ class MayaInstance(
         }
             .addEventListeners(
                 InteractionsListener(this),
-                GuildsListener(this)
+                GuildsListener(this),
+                MessagesListener(this)
             )
             .setAutoReconnect(true)
             .setStatus(OnlineStatus.ONLINE)

@@ -1,5 +1,5 @@
 commands:
-  error: "Infelizmente ocorreu erro ao executar o comando, minha equipe já está sabendo.\n\nCódigo de erro: {0}"
+  error: "Infelizmente ocorreu erro ao executar o comando, minha equipe já está sabendo.\n\nCódigo de erro: `{0}`"
 
   command:
     maya:

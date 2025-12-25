@@ -1,9 +1,11 @@
 package net.puffinmay.maya.database.data
 
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.puffinmay.maya.database.dao.ConnectionsEntity
 import net.puffinmay.maya.database.dao.GuildsEntity
 import net.puffinmay.maya.database.table.Connections
 import net.dv8tion.jda.api.interactions.DiscordLocale
+import net.puffinmay.maya.database.dao.MessagesEntity
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
@@ -62,6 +64,29 @@ suspend fun ConnectionsEntity.Companion.CreateConnection(
             if (messageComponentType != null) this.messageComponentType = messageComponentType
             this.flags = flags
             this.createdAt = System.currentTimeMillis()
+        }
+    }
+}
+
+suspend fun MessagesEntity.Companion.SendMessage(
+    id: Long,
+    content: String,
+    message: MessageReceivedEvent,
+    connection: ConnectionsEntity
+) {
+    return newSuspendedTransaction {
+        val existingMessage = MessagesEntity.findById(id)
+
+        if (existingMessage != null) {
+            existingMessage.content = content
+        } else {
+            MessagesEntity.new(id) {
+                channelId = message.channel.id
+                authorId = message.author.idLong
+                this.content = content
+                this.connection = connection.name
+                reference = message.message.referencedMessage?.id
+            }
         }
     }
 }
