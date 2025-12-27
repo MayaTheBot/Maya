@@ -13,12 +13,8 @@ import net.puffinmay.maya.database.dao.MessagesEntity
 import net.puffinmay.maya.database.data.SendMessage
 import net.puffinmay.maya.database.table.Connections
 import net.puffinmay.maya.database.table.ForwardMessages
-import net.puffinmay.maya.handlers.DestinationConnection
-import net.puffinmay.maya.handlers.ProcessedAttachment
-import net.puffinmay.maya.handlers.ReferenceAuthor
-import net.puffinmay.maya.handlers.ReferenceData
-import net.puffinmay.maya.handlers.ReferenceMessage
 import net.puffinmay.maya.handlers.ForwardHandler
+import net.puffinmay.maya.handlers.utils.*
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -83,7 +79,7 @@ data object MessageProcessor {
             } else {
                 Triple(refMsg.author.id, refMsg.author.name, refMsg.author.avatarUrl)
             }
-            
+
             ReferenceMessage(
                 message = refMsg,
                 author = ReferenceAuthor(
@@ -129,7 +125,6 @@ data object MessageProcessor {
                                 )
 
                                 ForwardHandler.forward(
-                                    client = message.jda,
                                     destinationConnection = destinationConnection,
                                     sourceMessage = message.message,
                                     sourceGuild = originalGuild,
@@ -214,7 +209,7 @@ data object MessageProcessor {
             } else {
                 Triple(refMsg.author.id, refMsg.author.name, refMsg.author.avatarUrl)
             }
-            
+
             ReferenceMessage(
                 message = refMsg,
                 author = ReferenceAuthor(
@@ -253,7 +248,6 @@ data object MessageProcessor {
                                 )
 
                                 ForwardHandler.forward(
-                                    client = message.jda,
                                     destinationConnection = destinationConnection,
                                     sourceMessage = message.message,
                                     sourceGuild = originalGuild,

@@ -2,6 +2,8 @@ package net.puffinmay.maya.utils.common
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.hocon.Hocon
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 object Constants {
     @OptIn(ExperimentalSerializationApi::class)
@@ -77,4 +79,13 @@ data object MayaEmotes {
     const val world = "<:world:1452473716155093015>"
     const val crown = "<:crown:1452474988673237002>"
     const val calendar = "<:calendar:1452475363363131403>"
+}
+
+object ForwardConstants {
+    const val EMOJI_REPLY = "<:troca:1440483651862270118>"
+    const val EMOJI_IMAGE = "<:images:1440483337662758924>"
+    const val EMOJI_MESSAGE = "<:messages:1440483149485445141>"
+    const val EMOJI_INFO = "<:information:1440439332438540349>"
+    const val EMOJI_VERIFIED = "<:verificado_orbit_ofc:1440483932859666657>"
+    val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("pt", "BR"))
 }
