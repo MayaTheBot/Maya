@@ -115,9 +115,7 @@ class MayaInstance(
 
         if (currentCluster.isMasterCluster) {
             TasksUtils.launchTasks(this)
-            if (config.environment == "development") {
-                MayaWebsite(this, config)
-            }
+            MayaWebsite(this, config)
         }
 
         this.commandHandler.handle()
