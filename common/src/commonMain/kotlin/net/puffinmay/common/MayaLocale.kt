@@ -1,4 +1,4 @@
-package net.puffinmay.maya.utils.common
+package net.puffinmay.common
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
@@ -17,8 +17,8 @@ class MayaLocale(var locale: String) {
 
     operator fun get(key: String, vararg placeholder: String): String {
         val normalizedLocale = when (locale) {
-            "pt-br" -> "br"
-            "en-us" -> "us"
+            "pt-br", "br" -> "br"
+            "en-us", "us" -> "us"
             else -> "br"
         }
 
@@ -27,7 +27,9 @@ class MayaLocale(var locale: String) {
             "$PATH/$normalizedLocale/commands.yml",
             "$PATH/$normalizedLocale/components.yml",
             "$PATH/$normalizedLocale/modules.yml",
-            "$PATH/$normalizedLocale/utils.yml"
+            "$PATH/$normalizedLocale/utils.yml",
+            "$PATH/$normalizedLocale/website/main.yml",
+            "$PATH/$normalizedLocale/website/header.yml",
         )
 
         for (resourcePath in resourcePaths) {

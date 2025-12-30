@@ -8,6 +8,8 @@ plugins {
 
 dependencies {
     implementation(libs.kotlin.stdlib.jdk8)
+    implementation(project(":website:frontend"))
+    implementation(project(":common"))
 
     // Discord
     implementation(libs.jda)
@@ -53,12 +55,54 @@ dependencies {
 
     // Thread
     implementation(libs.guava)
+    implementation("io.ktor:ktor-server-content-negotiation:3.2.2")
+    implementation("io.ktor:ktor-server-core:3.2.2")
+    implementation("io.ktor:ktor-server-core:3.2.2")
+    implementation("io.ktor:ktor-serialization-jackson:3.2.2")
+    implementation("io.ktor:ktor-server-content-negotiation:3.2.2")
+    implementation("io.ktor:ktor-server-core:3.2.2")
+    implementation("io.ktor:ktor-server-sessions:3.2.2")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:3.2.2")
 }
 
-tasks.test {
-    jvmArgs = listOf("--enable-native-access=ALL-UNNAMED", "-XX:+EnableDynamicAgentLoading")
+@Suppress("DEPRECATION")
+val sass = tasks.register<SassTask>("sass-style-scss") {
+    this.inputSass.set(file("src/main/styles/style.scss"))
+    this.inputSassFolder.set(file("src/main/styles/"))
+    this.outputSass.set(file("$buildDir/styles/style-scss"))
+}
 
+@Suppress("DEPRECATION")
+val globalSass = tasks.register<SassTask>("sass-global-style-scss") {
+    this.inputSass.set(file("src/main/styles/global.scss"))
+    this.inputSassFolder.set(file("src/main/styles/"))
+    this.outputSass.set(file("$buildDir/styles/style-scss"))
+}
+
+val skipKotlinJsBuild = (findProperty("net.puffinmay.maya.skipKotlinJsBuild") as String?)?.toBoolean() == true
+val skipScssBuild = (findProperty("net.puffinmay.maya.skipScssBuild") as String?)?.toBoolean() == true
+
+tasks.test {
     useJUnitPlatform()
+}
+
+tasks {
+    processResources {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        from("../resources/")
+
+        if (!skipScssBuild) {
+            dependsOn(sass)
+
+            from(sass) {
+                into("static/v1/assets/css")
+            }
+
+            from(globalSass) {
+                into("static/v1/assets/css")
+            }
+        }
+    }
 }
 
 application {

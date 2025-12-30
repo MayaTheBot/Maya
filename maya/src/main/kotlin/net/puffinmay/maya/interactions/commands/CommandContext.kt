@@ -2,7 +2,6 @@ package net.puffinmay.maya.interactions.commands
 
 import dev.minn.jda.ktx.messages.InlineMessage
 import net.puffinmay.maya.MayaInstance
-import net.puffinmay.maya.utils.common.MayaLocale
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Member
@@ -11,6 +10,7 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent
 import net.dv8tion.jda.api.interactions.InteractionHook
 import net.dv8tion.jda.api.interactions.modals.Modal
 import net.dv8tion.jda.api.interactions.modals.ModalMapping
+import net.puffinmay.common.MayaLocale
 
 interface CommandContext {
     val jda: JDA

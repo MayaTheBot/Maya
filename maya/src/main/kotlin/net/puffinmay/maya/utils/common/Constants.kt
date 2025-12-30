@@ -87,5 +87,6 @@ object ForwardConstants {
     const val EMOJI_MESSAGE = "<:messages:1440483149485445141>"
     const val EMOJI_INFO = "<:information:1440439332438540349>"
     const val EMOJI_VERIFIED = "<:verificado_orbit_ofc:1440483932859666657>"
+    @Suppress("DEPRECATION")
     val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("pt", "BR"))
 }

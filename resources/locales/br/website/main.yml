@@ -1,0 +1,19 @@
+website:
+  homepage:
+    greetings: "Olá, me chamo"
+    addButton: "Me adicione"
+    manageGuilds: "Gerenciar Servidores"
+
+    description: "Sou a bot perfeita para o seu servidor do Discord! Conto com vários sistemas como chat-global, segurança, tickets entre outros sistemas!"
+
+    feature:
+      title: "Caracteristicas"
+      security:
+        title: "Segurança"
+        description: "A Maya conta com segurança de alto nível, para ela e para o seu servidor, contendo sistema de automod para o chat global, além da sua source ser totalmente segura e bem desenvolvida."
+      global:
+        title: "Globalização"
+        description: "A Maya traz o melhor sistema de chat global para o seu servidor, ajudando ele cada vez mais a crescer e se desenvolver, ajudando com interações entre membros e eventos globais em seu servidor."
+      velocity:
+        title: "Velocidade"
+        description: "A Maya conta com os melhores componentes para processar mensagens, comandos o mais rápido possivel tudo abaixo dos 100ms, deixando a comunicação mais fluída e as respostas também, assim trazendo a melhor experiência ao usuário."

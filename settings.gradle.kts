@@ -90,3 +90,5 @@ plugins {
 rootProject.name = "maya-bot"
 
 include("maya")
+include("website:frontend")
+include("common")

@@ -6,7 +6,6 @@ import dev.minn.jda.ktx.messages.MessageCreateBuilder
 import dev.minn.jda.ktx.messages.MessageEditBuilder
 import net.puffinmay.maya.MayaInstance
 import net.puffinmay.maya.interactions.commands.CommandContext
-import net.puffinmay.maya.utils.common.MayaLocale
 import mu.KotlinLogging
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent
@@ -18,6 +17,7 @@ import net.dv8tion.jda.api.interactions.DiscordLocale
 import net.dv8tion.jda.api.interactions.InteractionHook
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.modals.Modal
+import net.puffinmay.common.MayaLocale
 
 class InteractionCommandContext(
     override val event: GenericInteractionCreateEvent,

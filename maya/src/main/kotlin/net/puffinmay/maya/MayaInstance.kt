@@ -34,6 +34,7 @@ import net.dv8tion.jda.api.sharding.ShardManager
 import net.dv8tion.jda.api.utils.ChunkingFilter
 import net.dv8tion.jda.api.utils.MemberCachePolicy
 import net.dv8tion.jda.api.utils.cache.CacheFlag
+import net.puffinmay.maya.website.MayaWebsite
 import kotlin.concurrent.thread
 
 class MayaInstance(
@@ -114,6 +115,9 @@ class MayaInstance(
 
         if (currentCluster.isMasterCluster) {
             TasksUtils.launchTasks(this)
+            if (config.environment == "development") {
+                MayaWebsite(this, config)
+            }
         }
 
         this.commandHandler.handle()

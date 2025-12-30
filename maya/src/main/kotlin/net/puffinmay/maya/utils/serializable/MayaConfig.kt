@@ -7,7 +7,8 @@ data class MayaConfig(
     val environment: String,
     val discord: DiscordSettings,
     val database: DatabaseSettings,
-    val internal: InternalSettings
+    val internal: InternalSettings,
+    val website: WebsiteSettings
 ) {
     @Serializable
     data class InternalSettings(
@@ -44,4 +45,9 @@ data class MayaConfig(
             val clusterUrl: String
         )
     }
+
+    @Serializable
+    data class WebsiteSettings(
+        val port: Int
+    )
 }

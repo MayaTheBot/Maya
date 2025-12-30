@@ -1,0 +1,19 @@
+website:
+  homepage:
+    greetings: "Hello, my name is"
+    addButton: "Add me"
+    manageGuilds: "Manage Servers"
+
+    description: "I am the perfect bot for your Discord server! I offer multiple systems such as global chat, security, tickets, and many other features!"
+
+    feature:
+      title: "Features"
+      security:
+        title: "Security"
+        description: "Maya boasts high-level security, both for itself and its server, including an automod system for the global chat, and its source code is completely secure and well-developed."
+      global:
+        title: "Globalization"
+        description: "Maya brings the best global chat system to your server, helping it grow and develop even more, facilitating member interactions and global events on your server."
+      velocity:
+        title: "Velocity"
+        description: "Maya uses the best components to process messages and commands as quickly as possible, all in under 100ms, making communication and responses more fluid and providing the best user experience."

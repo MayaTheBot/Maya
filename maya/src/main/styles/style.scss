@@ -1,0 +1,431 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap");
+@import "header";
+@import "footer";
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: var(--raya-default-font-family);
+  background: var(--raya-background-linear);
+  color: var(--raya-text-color);
+  overflow-x: hidden;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+}
+
+.pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(45deg, rgba(255, 0, 100, 0.1) 0, rgba(255, 0, 100, 0.1) 1px, transparent 1px, transparent 20px),
+  repeating-linear-gradient(-45deg, rgba(255, 0, 100, 0.1) 0, rgba(255, 0, 100, 0.1) 1px, transparent 1px, transparent 20px);
+  background-size: 40px 40px;
+}
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+  z-index: 1;
+  padding: 0 8% 150px;
+}
+
+.hero-content {
+  flex: 1;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 10;
+}
+
+.hero-title {
+  font-size: 4.5rem;
+  font-weight: 800;
+  color: var(--raya-primary-color);
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.maya-name {
+  color: var(--raya-other-color);
+}
+
+.hero-description {
+  font-size: 22px;
+  line-height: 1.8;
+  color: var(--raya-text-color);
+  opacity: 0.9;
+  max-width: 540px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.primary-button {
+  background: var(--raya-secondary-color);
+  color: #ffffff;
+  padding: 1.1rem 2rem;
+  border-radius: var(--raya-radius);
+  border: none;
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: Poppins, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(46, 107, 47, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.primary-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(46, 107, 47, 0.35);
+}
+
+.secondary-button {
+  background: transparent;
+  color: var(--raya-buttons-color);
+  padding: 1rem 2rem;
+  border-radius: var(--raya-radius);
+  border: 2px solid var(--raya-buttons-color);
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: Poppins, sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.secondary-button:hover {
+  background: rgba(92, 62, 43, 0.05);
+  transform: translateY(-4px);
+}
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+#maya-avatar {
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 10px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  animation: float 6s ease-in-out infinite;
+  background: #fff;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.waves-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  line-height: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.wave-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+@keyframes waveSway {
+  0% {
+    transform: translateY(0) scaleX(1);
+  }
+  50% {
+    transform: translateY(10px) scaleX(1.05);
+  }
+  100% {
+    transform: translateY(0) scaleX(1);
+  }
+}
+
+.wave-back {
+  z-index: 1;
+  opacity: 0.6;
+  animation: waveSway 8s ease-in-out infinite alternate;
+  transform-origin: bottom;
+}
+
+.wave-back path {
+  fill: var(--wave-color-back) !important;
+}
+
+.wave-middle {
+  z-index: 2;
+  opacity: 0.8;
+  animation: waveSway 6s ease-in-out infinite alternate-reverse;
+  transform-origin: bottom;
+}
+
+.wave-middle path {
+  fill: var(--wave-color-middle) !important;
+}
+
+.wave-front {
+  z-index: 3;
+  opacity: 1;
+  position: relative;
+  animation: waveSway 1.5s ease-in-out infinite alternate;
+}
+
+.wave-front path {
+  fill: var(--wave-color-front) !important;
+}
+
+.scroll-down {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 28px;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  color: #5c3e2b;
+  background: var(--scroll-button-color);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 24px rgba(11, 22, 50, 0.18);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease
+}
+
+.scroll-down a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--scroll-color);
+  text-decoration: none
+}
+
+.scroll-down i {
+  font-size: 20px;
+  line-height: 1;
+  transform-origin: center;
+  animation: scrollBounce 1.6s infinite
+}
+
+@keyframes scrollBounce {
+  0% {
+    transform: translateY(0)
+  }
+  50% {
+    transform: translateY(8px)
+  }
+  100% {
+    transform: translateY(0)
+  }
+}
+
+.feature {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 100px 8% 100px;
+  overflow: hidden;
+  gap: 8rem;
+}
+
+.feature-main-title {
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--raya-primary-color);
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  text-align: center;
+  z-index: 10;
+  max-width: 900px;
+}
+
+.feature-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rem;
+  width: 100%;
+  max-width: 1300px;
+  z-index: 10;
+}
+
+.feature-image-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#MapaMundi {
+  width: 100%;
+  max-width: 650px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.15));
+  transition: transform 0.3s ease;
+  animation: float 8s ease-in-out infinite reverse;
+}
+
+#Cadeado {
+  width: 100%;
+  max-width: 650px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.15));
+  transition: transform 0.3s ease;
+  animation: float 8s ease-in-out infinite reverse;
+}
+
+#Relogio {
+  width: 100%;
+  max-width: 650px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.15));
+  transition: transform 0.3s ease;
+  animation: float 8s ease-in-out infinite reverse;
+}
+
+.feature-content-wrapper {
+  flex: 1;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+
+.feature-subtitle {
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 800;
+  color: var(--raya-buttons-color);
+  margin: 0;
+  display: block;
+  line-height: 1.2;
+}
+
+.feature-description {
+  font-size: 20px;
+  line-height: 1.8;
+  color: var(--raya-text-color);
+  opacity: 0.9;
+}
+
+@media (max-width: 1100px) {
+  .hero-title, .feature-main-title {
+    font-size: 3.5rem;
+  }
+
+  .feature-container {
+    gap: 5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column-reverse;
+    text-align: center;
+    padding: 3rem 5% 150px 5%;
+    gap: 2rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  #maya-avatar {
+    width: 280px;
+    height: 280px;
+  }
+
+  .wave-svg {
+    width: auto;
+    min-width: 100%;
+  }
+
+  .feature {
+    padding: 80px 5%;
+    gap: 3rem;
+  }
+
+  .feature-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 3rem;
+  }
+
+  .feature-content-wrapper {
+    align-items: center;
+    text-align: center;
+  }
+
+  .feature-main-title {
+    font-size: 2.8rem;
+  }
+
+  .feature-subtitle {
+    font-size: 2rem;
+  }
+
+  #MapaMundi {
+    max-width: 90%;
+  }
+
+  #Cadeado {
+    max-width: 90%;
+  }
+}
