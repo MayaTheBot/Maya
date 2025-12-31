@@ -14,7 +14,7 @@ fun HEAD.buildHead(
     description: String,
     url: String? = "https://mayabot.fun",
     image: String? = "images/MayaAvatar.png",
-    themeColor: String = "#e7385d",
+    themeColor: String = "#3b9ad6",
     isDashboard: Boolean = false
 ) {
     meta(charset = "utf-8")

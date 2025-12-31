@@ -14,8 +14,8 @@ fun homePage(call: RoutingCall, isProduction: Boolean): String {
 
         head {
             buildHead(
-                titleText = "Conectando servidores em um clique - Maya Bot",
-                description = "Olá, me chamo Maya e sou um bot de chat-global e utilidades para o seu servidor!"
+                titleText = "Maya - A melhor bot de conexões para o seu servidor!",
+                description = "Olá, me chamo Maya, um bot feito para o seu servidor, contendo sistemas únicos e fáceis de configurar, me adicione ao seu servidor e veja meu poder."
             )
         }
 
