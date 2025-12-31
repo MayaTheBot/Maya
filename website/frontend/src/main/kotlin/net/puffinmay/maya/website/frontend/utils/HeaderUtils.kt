@@ -34,15 +34,15 @@ fun FlowContent.headerWithUser(call: RoutingCall, locale: MayaLocale) {
                     }
 
                     div("navbar-links desktop-only") {
-                        a(href = "/$locale/support", classes = "nav-link") {
+                        a(href = "/${locale.language}/support", classes = "nav-link") {
                             i("fa-solid fa-headset") {}
                             span { +locale["header.support"] }
                         }
-                        a(href = "/$locale/support/terms", classes = "nav-link") {
+                        a(href = "/${locale.language}/support/terms", classes = "nav-link") {
                             i("fa-solid fa-file-contract") {}
                             span { +locale["header.termsOfUse"] }
                         }
-                        a(href = "/$locale/commands", classes = "nav-link") {
+                        a(href = "/${locale.language}/commands", classes = "nav-link") {
                             i("fa-solid fa-terminal") {}
                             span { +locale["header.commands"] }
                         }
@@ -86,7 +86,7 @@ fun FlowContent.headerWithUser(call: RoutingCall, locale: MayaLocale) {
                     }
 
                     if (user != null) {
-                        a(href = "/$locale/dashboard", classes = "user-profile") {
+                        a(href = "/${locale.language}/dashboard", classes = "user-profile") {
                             img("https://cdn.discordapp.com/avatars/${user.userId}/${user.avatar}?size=128", "Avatar") {
                                 classes = setOf("user-avatar")
                             }
@@ -96,7 +96,7 @@ fun FlowContent.headerWithUser(call: RoutingCall, locale: MayaLocale) {
                             }
                         }
                     } else {
-                        a(href = "/$locale/dashboard", classes = "login-btn") {
+                        a(href = "/${locale.language}/dashboard", classes = "login-btn") {
                             i("fa-solid fa-sign-in-alt") {}
                             span { +locale["header.login"] }
                         }
@@ -109,15 +109,15 @@ fun FlowContent.headerWithUser(call: RoutingCall, locale: MayaLocale) {
 
                 div("mobile-menu-content") {
                     div("mobile-menu-links") {
-                        a(href = "/$locale/support", classes = "mobile-link") {
+                        a(href = "/${locale.language}/support", classes = "mobile-link") {
                             i("fa-solid fa-headset") {}
                             span { +locale["header.support"] }
                         }
-                        a(href = "/$locale/support/terms", classes = "mobile-link") {
+                        a(href = "/${locale.language}/support/terms", classes = "mobile-link") {
                             i("fa-solid fa-file-contract") {}
                             span { +locale["header.termsOfUse"] }
                         }
-                        a(href = "/$locale/commands", classes = "mobile-link") {
+                        a(href = "/${locale.language}/commands", classes = "mobile-link") {
                             i("fa-solid fa-terminal") {}
                             span { +locale["header.commands"] }
                         }
