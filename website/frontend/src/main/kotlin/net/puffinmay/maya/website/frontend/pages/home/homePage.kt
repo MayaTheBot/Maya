@@ -151,6 +151,14 @@ fun homePage(call: RoutingCall, isProduction: Boolean): String {
                     }
 
                     div("feature-container") {
+                        div("feature-image-wrapper") {
+                            img {
+                                src = "/assets/images/Clock.png"
+                                alt = "Relógio"
+                                id = "Relogio"
+                            }
+                        }
+
                         div("feature-content-wrapper") {
                             h3("feature-subtitle") {
                                 +locale["website.homepage.feature.velocity.title"]
@@ -158,14 +166,6 @@ fun homePage(call: RoutingCall, isProduction: Boolean): String {
 
                             div("feature-description") {
                                 +locale["website.homepage.feature.velocity.description"]
-                            }
-                        }
-
-                        div("feature-image-wrapper") {
-                            img {
-                                src = "/assets/images/Clock.png"
-                                alt = "Relógio"
-                                id = "Relogio"
                             }
                         }
                     }
