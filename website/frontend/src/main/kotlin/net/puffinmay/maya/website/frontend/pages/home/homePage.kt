@@ -165,7 +165,7 @@ fun homePage(call: RoutingCall, isProduction: Boolean): String {
                             img {
                                 src = "/assets/images/Clock.png"
                                 alt = "Relógio"
-                                id = "Relógio"
+                                id = "Relogio"
                             }
                         }
                     }
