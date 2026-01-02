@@ -17,3 +17,18 @@ website:
       velocity:
         title: "Velocidade"
         description: "A Maya conta com os melhores componentes para processar mensagens, comandos o mais rápido possivel tudo abaixo dos 100ms, deixando a comunicação mais fluída e as respostas também, assim trazendo a melhor experiência ao usuário."
+
+    stats:
+      title: "Estátisticas"
+      servers:
+        title: "Servidores"
+        description: "10"
+      commands:
+        title: "Comandos"
+        description: "10"
+      users:
+        title: "Usuários"
+        description: "10"
+      messages:
+        title: "Mensagens"
+        description: "10"

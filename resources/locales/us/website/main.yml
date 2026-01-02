@@ -17,3 +17,18 @@ website:
       velocity:
         title: "Velocity"
         description: "Maya uses the best components to process messages and commands as quickly as possible, all in under 100ms, making communication and responses more fluid and providing the best user experience."
+
+    stats:
+      title: "Statistics"
+      servers:
+        title: "Servers"
+        description: "10"
+      commands:
+        title: "Commands"
+        description: "10"
+      users:
+        title: "Users"
+        description: "10"
+      messages:
+        title: "Messages"
+        description: "10"

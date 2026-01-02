@@ -170,6 +170,69 @@ fun homePage(call: RoutingCall, isProduction: Boolean): String {
                         }
                     }
                 }
+
+                div("stats") {
+                    div("pattern")
+
+                    h2("stats-main-title") {
+                        span("maya-name") {
+                            +"Maya "
+                        }
+                        +locale["website.homepage.stats.title"]
+                    }
+
+                    div("stats-container") {
+                        div("stats-content") {
+                            h3("stats-subtitle") {
+                                i("fa-solid fa-server")
+                                +locale["website.homepage.stats.servers.title"]
+                            }
+
+                            div("stats-description") {
+                                +locale["website.homepage.stats.servers.description"]
+                            }
+                        }
+
+                        div("line-block")
+
+                        div("stats-content") {
+                            h3("stats-subtitle") {
+                                i("fa-solid fa-terminal")
+                                +locale["website.homepage.stats.commands.title"]
+                            }
+
+                            div("stats-description") {
+                                +locale["website.homepage.stats.commands.description"]
+                            }
+                        }
+
+                        div("line-block")
+
+                        div("stats-content") {
+                            h3("stats-subtitle") {
+                                i("fa-regular fa-user")
+                                +locale["website.homepage.stats.users.title"]
+                            }
+
+                            div("stats-description") {
+                                +locale["website.homepage.stats.users.description"]
+                            }
+                        }
+
+                        div("line-block")
+
+                        div("stats-content") {
+                            h3("stats-subtitle") {
+                                i("fa-regular fa-message")
+                                +locale["website.homepage.stats.messages.title"]
+                            }
+
+                            div("stats-description") {
+                                +locale["website.homepage.stats.messages.description"]
+                            }
+                        }
+                    }
+                }
             }
 
             footerSection()
