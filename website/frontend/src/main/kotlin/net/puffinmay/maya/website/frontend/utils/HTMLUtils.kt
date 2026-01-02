@@ -124,7 +124,7 @@ fun FlowContent.footerSection() {
                             i(classes = "fa-brands fa-discord") {}
                             +" Discord"
                         }
-                        a(href = "https://github.com/MayaTheBot", classes = "footer-link", target = "_blank") {
+                        a(href = "https://github.com/MayaTheBot/Maya", classes = "footer-link", target = "_blank") {
                             i(classes = "fa-brands fa-github") {}
                             +" GitHub"
                         }
