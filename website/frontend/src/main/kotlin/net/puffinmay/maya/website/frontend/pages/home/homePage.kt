@@ -8,7 +8,14 @@ import net.puffinmay.maya.website.frontend.utils.footerSection
 import net.puffinmay.maya.website.frontend.utils.getLanguage
 import net.puffinmay.maya.website.frontend.utils.headerWithUser
 
+data class Partner(val name: String, val image: String)
+
 fun homePage(call: RoutingCall, isProduction: Boolean): String {
+    val partners = listOf(
+        Partner("Maya Home", "/assets/images/MayaAvatar.png"),
+        Partner("Braixen's House", "/assets/images/MayaAvatar.png"),
+    )
+
     return createHTML().html {
         val locale = getLanguage(call)
 
@@ -233,9 +240,30 @@ fun homePage(call: RoutingCall, isProduction: Boolean): String {
                         }
                     }
                 }
+
+                div("servers-partner") {
+                    h2("partner-title") {
+                        +locale["website.homepage.partners.title"]
+                    }
+
+                    div("partner-carousel") {
+                        div("partner-track") {
+                            repeat(4) {
+                                partners.forEach { partner ->
+                                    div("partner-item") {
+                                        img(src = partner.image, alt = partner.name)
+                                        span("partner-name") {
+                                            +partner.name
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
-            footerSection()
+            footerSection(locale)
         }
     }
 }

@@ -32,3 +32,6 @@ website:
       messages:
         title: "Messages"
         description: "10"
+
+    partners:
+      title: "Servers Partners"

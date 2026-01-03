@@ -30,6 +30,7 @@ class MayaLocale(var locale: String) {
             "$PATH/$normalizedLocale/utils.yml",
             "$PATH/$normalizedLocale/website/main.yml",
             "$PATH/$normalizedLocale/website/header.yml",
+            "$PATH/$normalizedLocale/website/footer.yml"
         )
 
         for (resourcePath in resourcePaths) {
