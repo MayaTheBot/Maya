@@ -8,7 +8,7 @@ ENV COMMIT_HASH=${COMMIT_HASH}
 
 WORKDIR /app
 
-COPY maya/build/libs/maya-*.jar Maya.jar
+COPY maya-bot-discord/build/libs/maya-*.jar Maya.jar
 
 ENV JAVA_OPTS="-Xms1G -Xmx3G"
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar Maya.jar"]
