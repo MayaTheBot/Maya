@@ -1,0 +1,161 @@
+package net.puffinmay.maya
+
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.cancel
+import kotlinx.serialization.json.Json
+import mu.KotlinLogging
+import net.dv8tion.jda.api.JDAInfo
+import net.dv8tion.jda.api.OnlineStatus
+import net.dv8tion.jda.api.entities.Activity
+import net.dv8tion.jda.api.requests.GatewayIntent
+import net.dv8tion.jda.api.requests.RestConfig
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder
+import net.dv8tion.jda.api.sharding.ShardManager
+import net.dv8tion.jda.api.utils.ChunkingFilter
+import net.dv8tion.jda.api.utils.MemberCachePolicy
+import net.dv8tion.jda.api.utils.cache.CacheFlag
+import net.puffinmay.maya.api.MayaAPI
+import net.puffinmay.maya.database.DatabaseService
+import net.puffinmay.maya.database.PostgresConfig
+import net.puffinmay.maya.interactions.CommandManager
+import net.puffinmay.maya.interactions.components.ComponentManager
+import net.puffinmay.maya.listeners.GuildsListener
+import net.puffinmay.maya.listeners.InteractionsListener
+import net.puffinmay.maya.listeners.MessagesListener
+import net.puffinmay.maya.utils.MayaUtils
+import net.puffinmay.maya.utils.TasksUtils
+import net.puffinmay.maya.utils.serializable.MayaConfig
+import net.puffinmay.maya.utils.threads.ThreadPoolManager
+import net.puffinmay.maya.utils.threads.ThreadUtils
+import net.puffinmay.maya.website.MayaWebsite
+import kotlin.concurrent.thread
+
+class MayaInstance(
+    val config: MayaConfig,
+    val currentCluster: MayaConfig.DiscordSettings.Cluster
+) {
+    lateinit var shardManager: ShardManager
+    lateinit var interactionManager: ComponentManager
+    lateinit var utils: MayaUtils
+
+    private lateinit var mayaAPI: MayaAPI
+
+    private val activeJobs = ThreadUtils.activeJobs
+    private val coroutineExecutor = ThreadUtils.createThreadPool("CoroutineExecutor [%d]")
+    val coroutineDispatcher = coroutineExecutor.asCoroutineDispatcher()
+    val taskScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    val threadPoolManager = ThreadPoolManager()
+
+    val database: DatabaseService = DatabaseService()
+
+    val json = Json {
+        encodeDefaults = true
+        ignoreUnknownKeys = true
+    }
+
+    val restVersion = JDAInfo.DISCORD_REST_VERSION
+    val baseUrl = config.discord.baseUrl
+    val logger = KotlinLogging.logger { }
+
+    val configDb = PostgresConfig(
+        url = config.database.url,
+        username = config.database.username,
+        password = config.database.password
+    )
+
+    val commandHandler: CommandManager by lazy { CommandManager(this) }
+
+    val client: HttpClient by lazy {
+        HttpClient(CIO) {
+            install(HttpTimeout) {
+                requestTimeoutMillis = 60_000
+            }
+            install(ContentNegotiation) {
+                json()
+            }
+        }
+    }
+
+    suspend fun start() {
+        interactionManager = ComponentManager(this)
+        mayaAPI = MayaAPI(this)
+        utils = MayaUtils(this)
+
+        database.connect(configDb)
+
+        shardManager = DefaultShardManagerBuilder.create(
+            GatewayIntent.GUILD_MEMBERS,
+            GatewayIntent.MESSAGE_CONTENT,
+            GatewayIntent.GUILD_MESSAGES,
+            GatewayIntent.SCHEDULED_EVENTS,
+            GatewayIntent.GUILD_EXPRESSIONS,
+            GatewayIntent.DIRECT_MESSAGES,
+            GatewayIntent.GUILD_VOICE_STATES
+        ).apply {
+            if (baseUrl != null) {
+                logger.info { "Using Discord base URL: $baseUrl" }
+                setRestConfig(
+                    RestConfig().setBaseUrl("${baseUrl.removeSuffix("/")}/api/v$restVersion/")
+                )
+            }
+        }
+            .addEventListeners(
+                InteractionsListener(this),
+                GuildsListener(this),
+                MessagesListener(this)
+            )
+            .setAutoReconnect(true)
+            .setStatus(OnlineStatus.ONLINE)
+            .setActivity(Activity.playing("Starting..."))
+            .setShardsTotal(config.discord.totalShards)
+            .setShards(currentCluster.minShard, currentCluster.maxShard)
+            .setMemberCachePolicy(MemberCachePolicy.ALL)
+            .setChunkingFilter(ChunkingFilter.NONE)
+            .disableCache(CacheFlag.entries)
+            .enableCache(CacheFlag.EMOJI, CacheFlag.STICKER, CacheFlag.MEMBER_OVERRIDES)
+            .setToken(config.discord.token)
+            .setEnableShutdownHook(false)
+            .build()
+
+        if (currentCluster.isMasterCluster) {
+            TasksUtils.launchTasks(this)
+            MayaWebsite(this, config)
+        }
+
+        this.commandHandler.handle()
+
+        Runtime.getRuntime().addShutdownHook(thread(false) {
+            try {
+                logger.info { "Maya is shutting down..." }
+
+                shardManager.shards.forEach { shard ->
+                    shard.removeEventListener(*shard.registeredListeners.toTypedArray())
+                    logger.info { "Shutting down shard #${shard.shardInfo.shardId}..." }
+                    shard.shutdown()
+                }
+
+                activeJobs.forEach {
+                    logger.info { "Cancelling job $it" }
+                    it.cancel()
+                }
+
+                client.close()
+                database.close()
+                mayaAPI.stop()
+                coroutineExecutor.shutdown()
+                threadPoolManager.shutdown()
+                taskScope.cancel()
+            } catch (e: Exception) {
+                logger.error(e) { "Error during shutdown process" }
+            }
+        })
+    }
+}

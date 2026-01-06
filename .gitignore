@@ -45,4 +45,4 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-maya.conf
+maya-bot-discord/src/main/resources/maya.conf

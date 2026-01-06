@@ -9,5 +9,6 @@ data class UserSession(
     val avatar: String,
     val globalName: String,
     val username: String,
-    val userId: String
+    val userId: String,
+    val hmac: String
 )
