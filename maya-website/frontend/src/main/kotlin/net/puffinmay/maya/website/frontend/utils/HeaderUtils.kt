@@ -24,7 +24,7 @@ fun FlowContent.headerWithUser(user: UserSession?, locale: MayaLocale) {
 
                     a(href = "/", classes = "brand-link") {
                         div("brand-content") {
-                            img(src = "/assets/images/MayaAvatar.png", alt = "Maya") {
+                            img(src = "/assets/images/MayaLogo.png", alt = "Maya") {
                                 classes = setOf("brand-logo")
                             }
                             span("brand-name") { +"Maya" }
